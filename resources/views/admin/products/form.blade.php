@@ -5,7 +5,7 @@
 @section('content')
 <div class="card">
     <h2 style="margin-top: 0;">{{ $product ? 'Edit product' : 'New product' }}</h2>
-    <form method="POST" action="{{ $product ? route('admin.products.update', $product) : route('admin.products.store') }}">
+    <form method="POST" action="{{ $product ? route('admin.products.update', $product) : route('admin.products.store') }}" enctype="multipart/form-data">
         @csrf
         @if($product) @method('PUT') @endif
         <div class="form-group">
@@ -72,10 +72,50 @@
             <label>Reorder point</label>
             <input type="number" min="0" name="reorder_point" value="{{ old('reorder_point', $product?->reorder_point) }}" placeholder="Alert when stock ≤ this (blank = use default)">
         </div>
-        <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
+        <div class="form-group">
+            <label>Images</label>
+            <div id="existing-images" style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1rem;">
+                @foreach($existingImages ?? [] as $path)
+                    <div class="img-item" style="position: relative; width: 100px; height: 100px;">
+                        <img src="{{ asset('storage/' . $path) }}" alt="" style="width: 100%; height: 100%; object-fit: cover; border-radius: 6px; border: 1px solid #e2e8f0;">
+                        <input type="hidden" name="existing_images[]" value="{{ $path }}">
+                        <button type="button" class="img-remove btn btn-danger" style="position: absolute; top: 2px; right: 2px; padding: 0.2rem 0.4rem; font-size: 0.75rem; line-height: 1;">✕</button>
+                    </div>
+                @endforeach
+            </div>
+            <div id="new-images">
+                <input type="file" name="images[]" accept="image/jpeg,image/png,image/gif,image/webp" class="img-file" style="display: block; margin-bottom: 0.5rem;">
+            </div>
+            <button type="button" id="add-image-btn" class="btn btn-secondary" style="margin-top: 0.5rem;">Add more images</button>
+            <small style="display: block; color: #64748b; margin-top: 0.25rem;">JPG, PNG, GIF, WebP. Max 5MB each.</small>
+        </div>
+        <div class="form-actions">
             <button type="submit" class="btn btn-primary">Save</button>
             <a href="{{ route('admin.products.index') }}" class="btn btn-secondary">Cancel</a>
         </div>
     </form>
 </div>
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('add-image-btn').addEventListener('click', function() {
+        var div = document.getElementById('new-images');
+        var inp = document.createElement('input');
+        inp.type = 'file';
+        inp.name = 'images[]';
+        inp.accept = 'image/jpeg,image/png,image/gif,image/webp';
+        inp.className = 'img-file';
+        inp.style.marginTop = '0.5rem';
+        inp.style.marginBottom = '0.5rem';
+        inp.style.display = 'block';
+        div.appendChild(inp);
+    });
+    document.getElementById('existing-images').addEventListener('click', function(e) {
+        if (e.target.classList.contains('img-remove')) {
+            e.target.closest('.img-item').remove();
+        }
+    });
+});
+</script>
+@endpush
 @endsection

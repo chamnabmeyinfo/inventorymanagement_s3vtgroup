@@ -40,7 +40,7 @@
             </select>
             <small style="color: #64748b;">Viewer: read-only. Editor: can create/edit. Admin: full access including users and settings.</small>
         </div>
-        <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
+        <div class="form-actions">
             <button type="submit" class="btn btn-primary">Save</button>
             <a href="{{ route('admin.users.index') }}" class="btn btn-secondary">Cancel</a>
         </div>

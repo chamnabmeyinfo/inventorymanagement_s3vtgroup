@@ -3,11 +3,12 @@
 @section('title', 'Categories')
 
 @section('content')
-<div class="card" style="display: flex; justify-content: space-between; align-items: center;">
-    <h2 style="margin: 0;">Categories</h2>
-    <a href="{{ route('admin.categories.create') }}" class="btn btn-primary">Add category</a>
-</div>
 <div class="card">
+    <div class="page-header">
+        <h2>Categories</h2>
+        <a href="{{ route('admin.categories.create') }}" class="btn btn-primary">Add category</a>
+    </div>
+    <div class="table-wrap">
     <table>
         <thead>
             <tr>
@@ -23,12 +24,16 @@
                     <td>{{ $c->name }}</td>
                     <td style="color: #64748b;">{{ $c->slug }}</td>
                     <td>{{ $c->sort_order }}</td>
-                    <td>
-                        <a href="{{ route('admin.categories.edit', $c) }}" class="btn btn-secondary" style="padding: 0.35rem 0.6rem; font-size: 0.875rem;">Edit</a>
+                    <td class="action-cell">
+                        <a href="{{ route('admin.categories.edit', $c) }}" class="btn btn-secondary btn-sm">Edit</a>
+                        <form action="{{ route('admin.categories.duplicate', $c) }}" method="POST" style="display: inline;">
+                            @csrf
+                            <button type="submit" class="btn btn-secondary btn-sm">Duplicate</button>
+                        </form>
                         <form action="{{ route('admin.categories.destroy', $c) }}" method="POST" style="display: inline;" onsubmit="return confirm('Delete this category?');">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger" style="padding: 0.35rem 0.6rem; font-size: 0.875rem;">Delete</button>
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                         </form>
                     </td>
                 </tr>
@@ -37,6 +42,7 @@
             @endforelse
         </tbody>
     </table>
+    </div>
     {{ $categories->links() }}
 </div>
 @endsection

@@ -10,6 +10,7 @@
 </div>
 <div class="card">
     <h3 style="margin-top: 0;">Movements</h3>
+    <div class="table-wrap">
     <table>
         <thead>
             <tr>
@@ -38,5 +39,6 @@
             @endforelse
         </tbody>
     </table>
+    </div>
 </div>
 @endsection

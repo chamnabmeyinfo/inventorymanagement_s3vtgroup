@@ -36,7 +36,7 @@
             <label>Sort order</label>
             <input type="number" min="0" name="sort_order" value="{{ old('sort_order', $supplier?->sort_order ?? 0) }}">
         </div>
-        <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
+        <div class="form-actions">
             <button type="submit" class="btn btn-primary">Save</button>
             <a href="{{ route('admin.suppliers.index') }}" class="btn btn-secondary">Cancel</a>
         </div>

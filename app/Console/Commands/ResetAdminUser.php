@@ -9,17 +9,20 @@ use Illuminate\Support\Facades\Hash;
 class ResetAdminUser extends Command
 {
     protected $signature = 'inventory:reset-admin
-                            {--email=admininvs3@s3vtgroup.com.kh : New admin email}
-                            {--password=s3admin@123$$ : New admin password}';
+                            {--email= : New admin email}
+                            {--password= : New admin password}';
 
     protected $description = 'Reset admin user credentials (updates existing admin or creates one)';
 
     public function handle(): int
     {
-        $email = $this->option('email');
-        $password = $this->option('password');
+        $email = $this->option('email') ?: 'admininvs3@s3vtgroup.com.kh';
+        $password = $this->option('password') ?: 's3admin@123$$';
 
-        $admin = User::where('role', 'admin')->first();
+        // Find admin: prefer by new email, else old email, else first admin
+        $admin = User::where('email', $email)->first()
+            ?? User::where('email', 'admin@s3vtgroup.com.kh')->first()
+            ?? User::where('role', 'admin')->first();
 
         if ($admin) {
             $admin->update([

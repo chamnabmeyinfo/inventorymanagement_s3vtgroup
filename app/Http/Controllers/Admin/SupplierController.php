@@ -69,4 +69,13 @@ class SupplierController extends Controller
         $supplier->delete();
         return redirect()->route('admin.suppliers.index')->with('success', 'Supplier deleted.');
     }
+
+    public function duplicate(Supplier $supplier)
+    {
+        $copy = $supplier->replicate();
+        $copy->name = $supplier->name . ' (Copy)';
+        $copy->sort_order = ($supplier->sort_order ?? 0) + 1;
+        $copy->save();
+        return redirect()->route('admin.suppliers.edit', $copy)->with('success', 'Supplier duplicated. Edit and save.');
+    }
 }

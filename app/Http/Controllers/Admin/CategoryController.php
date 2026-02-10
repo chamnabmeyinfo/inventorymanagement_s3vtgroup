@@ -56,4 +56,26 @@ class CategoryController extends Controller
         $category->delete();
         return redirect()->route('admin.categories.index')->with('success', 'Category deleted.');
     }
+
+    public function duplicate(Category $category)
+    {
+        $copy = $category->replicate();
+        $copy->name = $category->name . ' (Copy)';
+        $copy->slug = $this->uniqueSlug($category->slug);
+        $copy->sort_order = ($category->sort_order ?? 0) + 1;
+        $copy->save();
+        return redirect()->route('admin.categories.edit', $copy)->with('success', 'Category duplicated. Edit and save.');
+    }
+
+    private function uniqueSlug(?string $slug): string
+    {
+        $base = $slug ?? 'category';
+        $base = preg_replace('/-copy-\d+$/i', '', $base);
+        $base = preg_replace('/-copy$/i', '', $base);
+        $i = 1;
+        while (Category::where('slug', $new = $base . '-copy-' . $i)->exists()) {
+            $i++;
+        }
+        return $new;
+    }
 }

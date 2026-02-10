@@ -39,7 +39,13 @@ php artisan db:seed
 
 Default admin: **admininvs3@s3vtgroup.com.kh** / **s3admin@123$$**
 
-### 4. Run
+### 4. Storage (for product images)
+
+```bash
+php artisan storage:link
+```
+
+### 5. Run
 
 ```bash
 php artisan serve
@@ -62,6 +68,8 @@ The dashboard helps owners stay **hands-free and on track**:
 - **Quick actions** – Record movement, add product, view reports
 
 **Reorder point:** Set per product when editing. When stock ≤ reorder point, the product appears in alerts. If not set, uses `INVENTORY_LOW_STOCK_THRESHOLD` (default 5).
+
+**Product images:** Upload multiple images per product (JPG, PNG, GIF, WebP, max 5MB each). Add or remove images flexibly when editing products.
 
 **Suppliers:** Track where stock comes from. Add suppliers (name, contact, phone, email). Link stock-in movements to suppliers. Set preferred supplier per product for reorder suggestions. Dashboard shows "Stock from suppliers" (received by supplier).
 

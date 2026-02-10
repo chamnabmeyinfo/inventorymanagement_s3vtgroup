@@ -3,18 +3,21 @@
 @section('title', 'Suppliers')
 
 @section('content')
-<div class="card" style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-end;">
-    <h2 style="margin: 0; flex: 1 1 100%;">Suppliers</h2>
-    <form method="GET" style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-end;">
-        <div class="form-group" style="margin-bottom: 0;">
-            <label>Search</label>
-            <input type="search" name="search" value="{{ request('search') }}" placeholder="Name, contact, email">
-        </div>
-        <button type="submit" class="btn btn-secondary">Search</button>
-    </form>
-    <a href="{{ route('admin.suppliers.create') }}" class="btn btn-primary">Add supplier</a>
-</div>
 <div class="card">
+    <div class="page-header">
+        <h2>Suppliers</h2>
+        <div class="btn-group">
+            <form method="GET" class="filter-form">
+                <div class="form-group">
+                    <label>Search</label>
+                    <input type="search" name="search" value="{{ request('search') }}" placeholder="Name, contact, email">
+                </div>
+                <button type="submit" class="btn btn-secondary">Search</button>
+            </form>
+            <a href="{{ route('admin.suppliers.create') }}" class="btn btn-primary">Add supplier</a>
+        </div>
+    </div>
+    <div class="table-wrap">
     <table>
         <thead>
             <tr>
@@ -32,12 +35,16 @@
                     <td>{{ $s->contact_person ?? '—' }}</td>
                     <td>{{ $s->phone ?? '—' }}</td>
                     <td>{{ $s->email ?? '—' }}</td>
-                    <td>
-                        <a href="{{ route('admin.suppliers.edit', $s) }}" class="btn btn-secondary" style="padding: 0.35rem 0.6rem; font-size: 0.875rem;">Edit</a>
+                    <td class="action-cell">
+                        <a href="{{ route('admin.suppliers.edit', $s) }}" class="btn btn-secondary btn-sm">Edit</a>
+                        <form action="{{ route('admin.suppliers.duplicate', $s) }}" method="POST" style="display: inline;">
+                            @csrf
+                            <button type="submit" class="btn btn-secondary btn-sm">Duplicate</button>
+                        </form>
                         <form action="{{ route('admin.suppliers.destroy', $s) }}" method="POST" style="display: inline;" onsubmit="return confirm('Delete this supplier?');">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger" style="padding: 0.35rem 0.6rem; font-size: 0.875rem;">Delete</button>
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                         </form>
                     </td>
                 </tr>
@@ -46,6 +53,7 @@
             @endforelse
         </tbody>
     </table>
+    </div>
     {{ $suppliers->withQueryString()->links() }}
 </div>
 @endsection

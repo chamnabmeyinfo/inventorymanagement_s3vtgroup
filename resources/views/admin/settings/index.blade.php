@@ -28,7 +28,7 @@
             <input type="text" name="telegram_chat_id" value="{{ old('telegram_chat_id', $values['telegram_chat_id'] ?? '') }}" placeholder="Your chat ID">
             <small style="color: #64748b;">Message your bot, then visit api.telegram.org/bot&lt;TOKEN&gt;/getUpdates to find chat_id.</small>
         </div>
-        <div style="margin-top: 1rem;">
+        <div class="form-actions">
             <button type="submit" class="btn btn-primary">Save settings</button>
         </div>
     </form>

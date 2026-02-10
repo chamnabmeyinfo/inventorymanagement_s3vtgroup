@@ -16,8 +16,11 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
     Route::resource('products', ProductController::class)->except(['show']);
+    Route::post('products/{product}/duplicate', [ProductController::class, 'duplicate'])->name('products.duplicate');
     Route::resource('categories', CategoryController::class)->except(['show']);
+    Route::post('categories/{category}/duplicate', [\App\Http\Controllers\Admin\CategoryController::class, 'duplicate'])->name('categories.duplicate');
     Route::resource('suppliers', \App\Http\Controllers\Admin\SupplierController::class)->except(['show']);
+    Route::post('suppliers/{supplier}/duplicate', [\App\Http\Controllers\Admin\SupplierController::class, 'duplicate'])->name('suppliers.duplicate');
     Route::get('/stock-movements', fn () => redirect()->route('admin.stock-movements.create'));
     Route::get('/stock-movements/create', [StockMovementController::class, 'create'])->name('stock-movements.create');
     Route::post('/stock-movements', [StockMovementController::class, 'store'])->name('stock-movements.store');
