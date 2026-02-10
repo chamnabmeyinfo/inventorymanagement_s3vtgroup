@@ -31,6 +31,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::middleware('role:admin')->group(function () {
         Route::get('/settings', [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings.index');
         Route::put('/settings', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');
+        Route::post('/settings/test-alert', [\App\Http\Controllers\Admin\SettingController::class, 'testAlert'])->name('settings.test-alert');
         Route::resource('users', \App\Http\Controllers\Admin\UserController::class)->except(['show']);
     });
 });

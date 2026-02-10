@@ -72,11 +72,11 @@ class DashboardController extends Controller
             ];
         })->filter(fn ($c) => $c['total'] > 0);
 
-        // Chart data: stock status pie
+        // Chart data: stock status pie (Windows 11 colors)
         $chartStockStatus = [
             'labels' => ['In stock', 'Low stock', 'Out of stock'],
             'data' => [$inStockCount, $lowStockCount, $outOfStockCount],
-            'colors' => ['#166534', '#b45309', '#dc2626'],
+            'colors' => ['#107C10', '#F7630C', '#D13438'],
         ];
 
         // Chart data: movements by day (last N days)

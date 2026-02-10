@@ -12,7 +12,7 @@
     .report-table td a { font-weight: 500; }
     .report-section { margin-bottom: 2rem; }
     .report-tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; margin-bottom: 1rem; }
-    .report-filters { display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-end; margin-bottom: 1rem; padding: 1rem; background: #f8fafc; border-radius: 8px; }
+    .report-filters { display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-end; margin-bottom: 1rem; padding: 1rem; background: rgba(255, 255, 255, 0.4); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border-radius: 14px; border: 1px solid rgba(255, 255, 255, 0.5); }
     .report-filters .form-group { margin-bottom: 0; }
     .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
     @media (max-width: 640px) { .report-summary { grid-template-columns: repeat(2, 1fr); } }
