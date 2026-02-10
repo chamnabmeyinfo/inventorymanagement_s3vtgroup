@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Stock extends Model
 {
+    protected $table = 'stock';
+
     public $timestamps = false;
     public $incrementing = false;
     protected $primaryKey = 'product_id';

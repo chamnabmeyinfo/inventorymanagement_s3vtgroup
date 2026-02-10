@@ -46,7 +46,34 @@ php artisan serve
 ```
 
 - **Admin UI:** http://localhost:8000/admin/login
+- **Dashboard:** http://localhost:8000/admin (after login)
 - **API base:** http://localhost:8000/api
+
+---
+
+## Smart assistant features
+
+The dashboard helps owners stay **hands-free and on track**:
+
+- **Smart alerts** – Banner when products are out of stock or below reorder point
+- **Quick stats** – Total products, in stock, out of stock, low stock, 7-day movement summary
+- **Products needing attention** – Table with one-click “Record” to add stock
+- **Recent activity** – Last 10 stock movements with relative time
+- **Quick actions** – Record movement, add product, view reports
+
+**Reorder point:** Set per product when editing. When stock ≤ reorder point, the product appears in alerts. If not set, uses `INVENTORY_LOW_STOCK_THRESHOLD` (default 5).
+
+**Suppliers:** Track where stock comes from. Add suppliers (name, contact, phone, email). Link stock-in movements to suppliers. Set preferred supplier per product for reorder suggestions. Dashboard shows "Stock from suppliers" (received by supplier).
+
+**Email alerts:** Set `INVENTORY_ALERT_EMAIL` in `.env` and configure `MAIL_*`. Run `php artisan inventory:check-low-stock` manually or via cron: `* * * * * php /path/to/artisan schedule:run` (runs daily at 08:00).
+
+**Gmail / Google Workspace:** Use `MAIL_MAILER=smtp`, `MAIL_HOST=smtp.gmail.com`, `MAIL_PORT=587`, `MAIL_ENCRYPTION=tls`, your full email, and an [App Password](https://support.google.com/accounts/answer/185833) (required if 2FA is on). Or set these in Admin → Settings.
+
+**Telegram alerts (free):** To receive low-stock alerts on Telegram, add to `.env`:
+- `TELEGRAM_BOT_TOKEN` – Create a bot via [@BotFather](https://t.me/BotFather), send `/newbot`, copy the token.
+- `TELEGRAM_CHAT_ID` – Message your bot (e.g. `/start`), then open `https://api.telegram.org/bot<TOKEN>/getUpdates` in a browser and find `"chat":{"id":123456789}`.
+
+You can use Telegram alone, email alone, or both.
 
 ---
 

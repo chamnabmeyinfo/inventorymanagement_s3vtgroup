@@ -20,7 +20,7 @@ class ProductController extends Controller
             $s = $request->search;
             $query->where(fn ($q) => $q->where('name', 'like', "%{$s}%")->orWhere('sku', 'like', "%{$s}%"));
         }
-        $products = $query->orderBy('name')->paginate(20);
+        $products = $query->with('preferredSupplier')->orderBy('name')->paginate(20);
         $categories = Category::orderBy('sort_order')->get();
         return view('admin.products.index', compact('products', 'categories'));
     }
@@ -28,7 +28,8 @@ class ProductController extends Controller
     public function create()
     {
         $categories = Category::orderBy('sort_order')->get();
-        return view('admin.products.form', ['product' => null, 'categories' => $categories]);
+        $suppliers = \App\Models\Supplier::orderBy('sort_order')->orderBy('name')->get();
+        return view('admin.products.form', ['product' => null, 'categories' => $categories, 'suppliers' => $suppliers]);
     }
 
     public function store(Request $request)
@@ -47,7 +48,8 @@ class ProductController extends Controller
     {
         $product->load('stock');
         $categories = Category::orderBy('sort_order')->get();
-        return view('admin.products.form', ['product' => $product, 'categories' => $categories]);
+        $suppliers = \App\Models\Supplier::orderBy('sort_order')->orderBy('name')->get();
+        return view('admin.products.form', ['product' => $product, 'categories' => $categories, 'suppliers' => $suppliers]);
     }
 
     public function update(Request $request, Product $product)
@@ -84,6 +86,8 @@ class ProductController extends Controller
             'price_amount' => 'nullable|numeric|min:0',
             'stock_status' => 'nullable|in:in_stock,on_order,out_of_stock',
             'stock_quantity' => 'nullable|integer|min:0',
+            'reorder_point' => 'nullable|integer|min:0',
+            'preferred_supplier_id' => 'nullable|exists:suppliers,id',
         ];
         if ($product) {
             $rules['sku'] .= '|unique:products,sku,' . $product->id;

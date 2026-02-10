@@ -12,7 +12,10 @@ class EnsureUserRole
     {
         $user = $request->user();
         if (!$user || !in_array($user->role, $roles)) {
-            return response()->json(['error' => 'Insufficient permissions'], 403);
+            if ($request->expectsJson()) {
+                return response()->json(['error' => 'Insufficient permissions'], 403);
+            }
+            return redirect()->route('admin.dashboard')->with('error', 'Insufficient permissions.');
         }
         return $next($request);
     }

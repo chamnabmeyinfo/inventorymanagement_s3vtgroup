@@ -16,6 +16,7 @@
                 <th>Date</th>
                 <th>Type</th>
                 <th>Quantity</th>
+                <th>Supplier</th>
                 <th>Reference</th>
                 <th>Notes</th>
                 <th>User</th>
@@ -25,14 +26,15 @@
             @forelse($movements as $m)
                 <tr>
                     <td>{{ $m->created_at->format('Y-m-d H:i') }}</td>
-                    <td>{{ $m->type }}</td>
+                    <td><span class="badge badge-{{ $m->type === 'in' ? 'in_stock' : ($m->type === 'out' ? 'out_of_stock' : 'on_order') }}">{{ $m->type }}</span></td>
                     <td>{{ $m->quantity }}</td>
+                    <td>@if($m->supplier)<a href="{{ route('admin.suppliers.edit', $m->supplier) }}">{{ $m->supplier->name }}</a>@else—@endif</td>
                     <td>{{ $m->reference ?? '—' }}</td>
                     <td>{{ $m->notes ?? '—' }}</td>
                     <td>{{ $m->user?->name ?? '—' }}</td>
                 </tr>
             @empty
-                <tr><td colspan="6">No movements yet.</td></tr>
+                <tr><td colspan="7">No movements yet.</td></tr>
             @endforelse
         </tbody>
     </table>

@@ -30,6 +30,7 @@
                 <th>SKU</th>
                 <th>Name</th>
                 <th>Category</th>
+                <th>Supplier</th>
                 <th>Stock</th>
                 <th>Status</th>
                 <th></th>
@@ -41,6 +42,7 @@
                     <td>{{ $p->sku }}</td>
                     <td>{{ $p->name }}</td>
                     <td>{{ $p->category?->name ?? '—' }}</td>
+                    <td>@if($p->preferredSupplier)<a href="{{ route('admin.suppliers.edit', $p->preferredSupplier) }}">{{ $p->preferredSupplier->name }}</a>@else—@endif</td>
                     <td>{{ $p->stock?->quantity ?? 0 }}</td>
                     <td><span class="badge badge-{{ $p->stock?->status ?? 'out_of_stock' }}">{{ str_replace('_', ' ', $p->stock?->status ?? 'out_of_stock') }}</span></td>
                     <td>
@@ -49,7 +51,7 @@
                     </td>
                 </tr>
             @empty
-                <tr><td colspan="6">No products found.</td></tr>
+                <tr><td colspan="7">No products found.</td></tr>
             @endforelse
         </tbody>
     </table>

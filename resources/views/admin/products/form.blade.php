@@ -29,6 +29,18 @@
                 @endforeach
             </select>
         </div>
+        @if(isset($suppliers) && $suppliers->isNotEmpty())
+        <div class="form-group">
+            <label>Preferred supplier</label>
+            <select name="preferred_supplier_id">
+                <option value="">—</option>
+                @foreach($suppliers as $s)
+                    <option value="{{ $s->id }}" {{ old('preferred_supplier_id', $product?->preferred_supplier_id) == $s->id ? 'selected' : '' }}>{{ $s->name }}</option>
+                @endforeach
+            </select>
+            <span style="font-size: 0.8125rem; color: #64748b;">Suggested for reorder alerts</span>
+        </div>
+        @endif
         <div class="form-group">
             <label>Description</label>
             <textarea name="description" rows="3">{{ old('description', $product?->description) }}</textarea>
@@ -55,6 +67,10 @@
         <div class="form-group">
             <label>Stock quantity</label>
             <input type="number" min="0" name="stock_quantity" value="{{ old('stock_quantity', $product?->stock?->quantity ?? 0) }}">
+        </div>
+        <div class="form-group">
+            <label>Reorder point</label>
+            <input type="number" min="0" name="reorder_point" value="{{ old('reorder_point', $product?->reorder_point) }}" placeholder="Alert when stock ≤ this (blank = use default)">
         </div>
         <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
             <button type="submit" class="btn btn-primary">Save</button>

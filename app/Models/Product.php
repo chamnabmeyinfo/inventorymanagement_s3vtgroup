@@ -10,8 +10,9 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Product extends Model
 {
     protected $fillable = [
-        'sku', 'name', 'slug', 'category_id', 'description', 'specifications',
+        'sku', 'name', 'slug', 'category_id', 'preferred_supplier_id', 'description', 'specifications',
         'price_display_type', 'price_amount', 'image_urls', 'related_product_ids',
+        'reorder_point',
     ];
 
     protected $casts = [
@@ -24,6 +25,11 @@ class Product extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function preferredSupplier(): BelongsTo
+    {
+        return $this->belongsTo(Supplier::class, 'preferred_supplier_id');
     }
 
     public function stock(): HasOne
