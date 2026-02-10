@@ -37,7 +37,7 @@ php artisan migrate
 php artisan db:seed
 ```
 
-Default admin: **admin@s3vtgroup.com.kh** / **password**
+Default admin: **admininvs3@s3vtgroup.com.kh** / **s3admin@123$$**
 
 ### 4. Run
 
